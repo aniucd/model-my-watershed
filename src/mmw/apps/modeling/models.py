@@ -100,3 +100,28 @@ class Scenario(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class HydroShareResource(models.Model):
+    project = models.OneToOneField(Project, related_name='hydroshare')
+    resource = models.UUIDField(
+        help_text='ID of Resource in HydroShare')
+    title = models.CharField(
+        max_length=255,
+        help_text='Title of Resource in HydroShare')
+    url = models.CharField(
+        max_length=1023,
+        help_text='URL of Resource in HydroShare')
+    autosync = models.BooleanField(
+        default=False,
+        help_text='Whether to automatically push changes to HydroShare')
+    exported_at = models.DateTimeField(
+        help_text='Most recent export date')
+    created_at = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True)
+    modified_at = models.DateTimeField(
+        auto_now=True)
+
+    def __unicode__(self):
+        return '{} <{}>'.format(self.title, self.url)
